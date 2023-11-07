@@ -10,9 +10,9 @@ app = Flask(__name__)
 
 # Define RabbitMQ configuration
 rabbitmq_config = {
-    "RABBITMQ_HOST": "192.168.68.97",
+    "RABBITMQ_HOST": "192.168.68.X",
     "RABBITMQ_USERNAME": "cs_creaevento",
-    "RABBITMQ_PASSWORD": "Nuevo123*",
+    "RABBITMQ_PASSWORD": "NuevoXXX",
     "QUEUE_NAME": "vmware_VmRemovedEvent"
 }
 
