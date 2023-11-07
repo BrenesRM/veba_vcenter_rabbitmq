@@ -1,0 +1,35 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: kn-py-rabbitmq-handler
+  labels:
+    app: veba-ui
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "1"
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containers:
+        - image: usoppone99/rabbitmq_vmremovedevent:1.0.4
+          ports:
+            - name: http1
+              containerPort: 5000
+---
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: kn-py-rabbitmq-handler
+  labels:
+    app: veba-ui
+spec:
+  broker: default
+  filter:
+    attributes:
+      type: com.vmware.vsphere.VmRemovedEvent.v0
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: kn-py-rabbitmq-handler

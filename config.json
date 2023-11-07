@@ -1,0 +1,7 @@
+{
+    "RABBITMQ_HOST": "192.168.68.97",
+    "RABBITMQ_USERNAME": "cs_creaevento",
+    "RABBITMQ_PASSWORD": "Nuevo123*",
+    "QUEUE_NAME": "vmware_VmRemovedEvent"
+  }
+  
