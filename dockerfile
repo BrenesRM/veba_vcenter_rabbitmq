@@ -13,10 +13,6 @@ RUN pip install cloudevents
 # Copy your Python script into the container
 COPY send_to_rabbitmq.py /app/send_to_rabbitmq.py
 
-# Build argument to specify the secret file
-ARG SECRET_FILE
-COPY $SECRET_FILE /config.json
-
 # Expose port 5000
 EXPOSE 5000
 
