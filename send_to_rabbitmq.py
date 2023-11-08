@@ -1,20 +1,30 @@
 from flask import Flask, request, jsonify
 from cloudevents.http import from_http
 import logging
+import os
 import pika
 import json
+import base64
 
 # Existing Flask application setup
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 app = Flask(__name__)
 
-# Define RabbitMQ configuration
+# Access the secret data using environment variables and decode them
 rabbitmq_config = {
-    "RABBITMQ_HOST": "192.168.68.X",
-    "RABBITMQ_USERNAME": "cs_creaevento",
-    "RABBITMQ_PASSWORD": "NuevoXXX",
-    "QUEUE_NAME": "vmware_VmRemovedEvent"
+    "RABBITMQ_HOST": os.environ.get("RABBITMQ_HOST"),
+    "RABBITMQ_USERNAME": os.environ.get("RABBITMQ_USERNAME"),
+    "RABBITMQ_PASSWORD": os.environ.get("RABBITMQ_PASSWORD"),
+    "QUEUE_NAME": os.environ.get("QUEUE_NAME")
 }
+
+'''
+# Print the values of the variables
+print("RABBITMQ_HOST:", rabbitmq_config["RABBITMQ_HOST"])
+print("RABBITMQ_USERNAME:", rabbitmq_config["RABBITMQ_USERNAME"])
+print("RABBITMQ_PASSWORD:", rabbitmq_config["RABBITMQ_PASSWORD"])
+print("QUEUE_NAME:", rabbitmq_config["QUEUE_NAME"])
+'''
 
 # Context manager for RabbitMQ connection
 class RabbitMQConnection:
