@@ -1,7 +1,20 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vmremove-secret
+  labels:
+    app: veba-ui   # Add this label to your Secret
+type: Opaque  # Type the secret in base64
+data:
+  RABBITMQ_HOST: MTkyLjE2OC42O...
+  RABBITMQ_USERNAME: Y3NfY3JlYW...
+  RABBITMQ_PASSWORD: TnVldm8...
+  QUEUE_NAME: dm13YXJlX1ZtUmVtb...
+---
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: kn-py-rabbitmq-handler
+  name: kn-py-rabbitmq-handlerv2
   labels:
     app: veba-ui
 spec:
@@ -12,15 +25,18 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-        - image: usoppone99/rabbitmq_vmremovedevent:1.0.4
+        - image: usoppone99/rabbitmq_vmremovedevent:1.0.5
           ports:
             - name: http1
               containerPort: 5000
+          envFrom:
+            - secretRef:
+                name: vmremove-secret  # Reference to the Kubernetes Secret
 ---
 apiVersion: eventing.knative.dev/v1
 kind: Trigger
 metadata:
-  name: kn-py-rabbitmq-handler
+  name: kn-py-rabbitmq-handlerv2
   labels:
     app: veba-ui
 spec:
@@ -32,4 +48,4 @@ spec:
     ref:
       apiVersion: serving.knative.dev/v1
       kind: Service
-      name: kn-py-rabbitmq-handler
+      name: kn-py-rabbitmq-handlerv2
